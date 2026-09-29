@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Katrien Beuls</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F8FA;
+  --surface: #FFFFFF;
+  --ink: #1C2430;
+  --muted: #5B6675;
+  --rule: #DDE2E8;
+  --accent: #1F5F8B;
+  --accent-soft: #E3EDF5;
+  --banner-a: #1F5F8B;
+  --banner-b: #9DB7CC;
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12171E; --surface: #19202A; --ink: #E4E8EE; --muted: #9AA5B3;
+    --rule: #2A3441; --accent: #7FB3DA; --accent-soft: #1E2E3D;
+    --banner-a: #7FB3DA; --banner-b: #2F4A60;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12171E; --surface: #19202A; --ink: #E4E8EE; --muted: #9AA5B3;
+  --rule: #2A3441; --accent: #7FB3DA; --accent-soft: #1E2E3D;
+  --banner-a: #7FB3DA; --banner-b: #2F4A60;
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px); }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--sans); font-size: 1rem; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+img { max-width: 100%; }
+
+/* Top bar */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule);
+}
+.topbar-inner {
+  max-width: 1120px; margin: 0 auto; padding: 0.9rem 1.5rem;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.site-title { font-family: var(--serif); font-size: 1.35rem; font-weight: 500; color: var(--ink); text-decoration: none; }
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.4rem; flex-wrap: wrap; }
+nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; padding-bottom: 3px; border-bottom: 2px solid transparent; }
+nav a:hover { color: var(--ink); }
+nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* Banner: generated contour lines */
+.banner { height: 200px; overflow: hidden; border-bottom: 1px solid var(--rule); background: var(--surface); }
+.banner svg { display: block; width: 100%; height: 100%; }
+
+/* Layout */
+.wrap {
+  max-width: 1120px; margin: 0 auto; padding: 0 1.5rem 4rem;
+  display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 3.5rem;
+}
+.sidebar { position: relative; margin-top: -64px; }
+.sidebar-inner { position: sticky; top: 90px; }
+.avatar {
+  width: 148px; height: 148px; border-radius: 50%;
+  border: 4px solid var(--bg); background: var(--accent-soft);
+  display: grid; place-items: center; overflow: hidden;
+  font-family: var(--serif); font-size: 3rem; color: var(--accent);
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.sidebar h2 { font-family: var(--serif); font-weight: 500; font-size: 1.45rem; margin: 1rem 0 0.2rem; line-height: 1.25; }
+.role { color: var(--muted); font-size: 0.95rem; margin: 0 0 1.1rem; }
+.links { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.35rem; font-size: 0.95rem; }
+
+main { padding-top: 2.5rem; min-width: 0; }
+.page[hidden] { display: none; }
+h1 { font-family: var(--serif); font-weight: 500; font-size: 2.4rem; line-height: 1.15; margin: 0 0 1.5rem; }
+h3.year {
+  font-family: var(--serif); font-weight: 500; font-size: 1.5rem; margin: 2.5rem 0 0.8rem;
+  padding-bottom: 0.3rem; border-bottom: 1px solid var(--rule);
+}
+.prose { max-width: 68ch; }
+.prose p { margin: 0 0 1.1rem; }
+.prose h3 { font-family: var(--serif); font-weight: 500; font-size: 1.35rem; margin: 2.2rem 0 0.6rem; }
+
+/* Year jump list */
+.jump { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; font-size: 0.92rem; margin: -0.5rem 0 1rem; }
+.jump a { color: var(--muted); }
+.note { color: var(--muted); font-size: 0.95rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 1rem; }
+.chip { font: inherit; font-size: 0.88rem; color: var(--muted); background: transparent; border: 1px solid var(--rule); border-radius: 999px; padding: 0.2rem 0.75rem; cursor: pointer; }
+.chip:hover { color: var(--ink); border-color: var(--muted); }
+.chip[aria-pressed="true"] { color: var(--accent); background: var(--accent-soft); border-color: var(--accent); }
+.e-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.8rem; margin-top: 0.25rem; }
+.e-meta .e-links { margin-top: 0; }
+.tag { font-size: 0.8rem; color: var(--muted); }
+.jump { margin: 0 0 1rem; }
+#projectList { margin-bottom: 1rem; }
+
+
+/* Entries */
+.entries { list-style: none; margin: 0; padding: 0; max-width: 72ch; }
+.entries li { padding: 0.75rem 0; }
+.entries li + li { border-top: 1px dashed var(--rule); }
+.e-title { font-weight: 600; }
+.e-authors .me { text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+.e-venue { font-style: italic; color: var(--muted); }
+.award { display: inline-block; font-size: 0.8rem; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 0 0.45rem; border-radius: 3px; margin-left: 0.3rem; }
+.e-links { margin-top: 0.25rem; font-size: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.2rem 0.7rem; }
+.e-links a::before { content: "["; color: var(--muted); }
+.e-links a::after { content: "]"; color: var(--muted); }
+
+.news { list-style: none; padding: 0; margin: 0; max-width: 68ch; }
+.news li { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; padding: 0.4rem 0; }
+.news time { color: var(--muted); font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+
+footer { border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.85rem; }
+footer div { max-width: 1120px; margin: 0 auto; padding: 1.2rem 1.5rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.theme-btn { background: none; border: 1px solid var(--rule); color: var(--muted); border-radius: 4px; padding: 0.15rem 0.6rem; font: inherit; cursor: pointer; }
+
+@media (max-width: 820px) {
+  .wrap { grid-template-columns: 1fr; gap: 0; }
+  .sidebar { margin-top: 0; }
+  .sidebar-inner { position: static; display: grid; grid-template-columns: auto 1fr; column-gap: 1.2rem; align-items: start; }
+  .avatar { width: 110px; height: 110px; font-size: 2.2rem; grid-row: span 2; margin-top: -48px; }
+  .sidebar h2 { margin-top: 0.7rem; }
+  .role { margin-bottom: 0; }
+  .links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; margin-top: 1rem; }
+  .banner { height: 140px; }
+  h1 { font-size: 2rem; }
+  main { padding-top: 1.8rem; }
+  .news li { grid-template-columns: 1fr; gap: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="site-title" href="#about" id="siteTitle">Your Name</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#talks">Talks</a></li>
+        <li><a href="#teaching">Teaching</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="banner" aria-hidden="true"><svg id="banner" preserveAspectRatio="xMidYMid slice"></svg></div>
+
+<div class="wrap">
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="avatar" id="avatar">YN</div>
+      <h2 id="sbName">Your Name</h2>
+      <p class="role" id="sbRole"></p>
+      <ul class="links" id="sbLinks"></ul>
+    </div>
+  </aside>
+
+  <main>
+    <section class="page" id="page-about">
+      <h1>About</h1>
+      <div class="prose" id="aboutText"></div>
+      <div class="prose"><h3>Research projects</h3></div>
+      <ul class="entries" id="projectList"></ul>
+      <div class="prose"><h3>News</h3></div>
+      <ul class="news" id="newsList"></ul>
+    </section>
+
+    <section class="page" id="page-publications" hidden>
+      <h1>Publications</h1>
+      <p class="note" id="pubNote"></p>
+      <div class="chips" id="pubFilter" role="group" aria-label="Filter by type"></div>
+      <div class="jump" id="pubJump" aria-label="Jump to year"></div>
+      <div id="pubList"></div>
+    </section>
+
+    <section class="page" id="page-talks" hidden>
+      <h1>Talks</h1>
+      <div id="talkList"></div>
+    </section>
+
+    <section class="page" id="page-teaching" hidden>
+      <h1>Teaching</h1>
+      <div id="teachList"></div>
+    </section>
+  </main>
+</div>
+
+<footer><div><span id="copy"></span><button class="theme-btn" id="themeBtn" type="button">Switch theme</button></div></footer>
+
+<script>
+/* ============================================================
+   EDIT YOUR CONTENT HERE: everything on the site comes from this object.
+   In author lists, *asterisks* highlight your own name.
+   Publication "type" must be one of: Journal, Conference, Book chapter, Workshop, Edited volume, Thesis.
+   ============================================================ */
+const SITE = {
+ "name": "Katrien Beuls",
+ "initials": "KB",
+ "photo": "data:image/jpeg;base64,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",
+ "role": "Associate professor, Faculty of Computer Science, Université de Namur",
+ "links": [
+  {
+   "label": "Email",
+   "url": "mailto:katrien.beuls@unamur.be"
+  },
+  {
+   "label": "UNamur profile",
+   "url": "https://www.unamur.be/fr/profil/kbeuls"
+  },
+  {
+   "label": "Google Scholar",
+   "url": "https://scholar.google.com/citations?user=ynF8ZAgAAAAJ&hl=en"
+  },
+  {
+   "label": "ORCID",
+   "url": "https://orcid.org/0000-0003-4451-4778"
+  },
+  {
+   "label": "ELLIS",
+   "url": "https://ellis.eu/person/katrien-beuls"
+  }
+ ],
+ "about": [
+  "I am an associate professor at the Faculty of Computer Science of the Université de Namur, where I am part of the Namur Digital Institute (NaDI). My research asks how machines could learn and use language the way people do: through situated, communicative interactions with others, rather than from text alone.",
+  "I work on computational construction grammar, and in particular Fluid Construction Grammar; on the emergence of communication systems in populations of autonomous agents; and on neuro-symbolic approaches to grounded, human-interpretable language understanding.",
+  "Before moving to Namur in 2022, I spent more than a decade at the Artificial Intelligence Lab of the Vrije Universiteit Brussel, first as a PhD student with Luc Steels and later as a postdoctoral researcher and guest professor. I studied speech and language processing at the University of Edinburgh and language and literature at KU Leuven.",
+  "I am president of the Evolutionary Linguistics Association and a member of ELLIS."
+ ],
+ "projects": [
+  {
+   "title": "CxG-LEARN",
+   "text": "Syntactico-semantic generalisation operators for learning large-scale usage-based construction grammars. FNRS-FWO WEAVE project with Vrije Universiteit Brussel, 2024–2028. Principal investigator."
+  },
+  {
+   "title": "MUHAI",
+   "text": "Meaning and Understanding in Human-centric AI. EIC Pathfinder project, 2020–2025. Principal investigator.",
+   "url": "https://www.muhai.org"
+  },
+  {
+   "title": "ODYCCEUS",
+   "text": "Opinion Dynamics and Cultural Conflict in European Space. H2020 FET project, 2017–2021. Principal investigator at VUB.",
+   "url": "https://www.odycceus.eu"
+  },
+  {
+   "title": "ATLANTIS",
+   "text": "Artificial Language Understanding in Robots. CHIST-ERA project, 2015–2018. Scientific coordinator; Ann Nowé served as administrative coordinator.",
+   "url": "https://www.chistera.eu/projects/atlantis"
+  }
+ ],
+ "news": [
+  {
+   "date": "Nov 2026",
+   "text": "Liesbet De Vos defends her PhD thesis on SignFCG, a framework for modelling sign language constructions in computational construction grammar."
+  },
+  {
+   "date": "Aug 2026",
+   "text": "Our paper on the self-organisation of conceptually grounded vocabularies at scale, with Jérôme Botoko Ekila, Lara Verheyen, Jens Nevens and Paul Van Eecke, is out in Transactions of the Association for Computational Linguistics.",
+   "url": "https://doi.org/10.1162/TACL.a.799",
+   "linkText": "Read the paper"
+  },
+  {
+   "date": "Jul 2026",
+   "text": "Shortlisted for the Falling Walls Scientific Breakthrough of the Year 2026, in the Humanities and Social Sciences category."
+  },
+  {
+   "date": "Jul 2026",
+   "text": "Publication chair of CoNLL 2026 in San Diego, where Paul Van Eecke and I published a method for learning large-scale construction grammars from semantically annotated corpora."
+  },
+  {
+   "date": "Nov 2025",
+   "text": "General chair of BNAIC/BeNeLearn 2025, hosted in Namur."
+  },
+  {
+   "date": "Apr 2025",
+   "text": "Appointed associate professor at the Université de Namur."
+  }
+ ],
+ "scholarNote": "Compiled from my CV and Google Scholar. The most up-to-date list is on Google Scholar.",
+ "scholarUrl": "https://scholar.google.com/citations?user=ynF8ZAgAAAAJ&hl=en",
+ "publications": [
+  {
+   "type": "Journal",
+   "year": "Forthcoming",
+   "authors": "Van Eecke, P., and *Beuls, K.*",
+   "title": "PyFCG: A Python Toolkit for Modelling Construction Grammars",
+   "venue": "iScience",
+   "status": "Submitted",
+   "links": [
+    [
+     "doi",
+     "http://dx.doi.org/10.2139/ssrn.6294339"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2026",
+   "authors": "Botoko Ekila, J., Verheyen, L., Nevens, J., *Beuls, K.*, and Van Eecke, P.",
+   "title": "Emergent Communication in Continuous Worlds: Self-Organisation of Conceptually Grounded Vocabularies at Scale",
+   "venue": "Transactions of the Association for Computational Linguistics, 14:2234–2257",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1162/TACL.a.799"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2026",
+   "authors": "Wright, J., Verheyen, L., de Ponte, F., Botoko Ekila, J., *Beuls, K.*, and Van Eecke, P.",
+   "title": "Population-level linguistic conventionality benefits the robustness, learnability, and cognitive efficiency of emergent languages",
+   "venue": "Journal of Language Evolution, 11: lzag006",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:eq2jaN3J8jMC"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2025",
+   "authors": "Verheyen, L., Botoko Ekila, J., Nevens, J., Van Eecke, P., and *Beuls, K.*",
+   "title": "Neuro-symbolic procedural semantics for explainable visual dialogue",
+   "venue": "PLOS ONE 20(5): e0323098",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1371/journal.pone.0323098"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2025",
+   "authors": "Doumen, J., Schmalz, V., *Beuls, K.*, and Van Eecke, P.",
+   "title": "The Computational Learning of Construction Grammars: State of the Art and Prospective Roadmap",
+   "venue": "Constructions and Frames, 17(1): 141–174",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1075/cf.23026.dou"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2024",
+   "authors": "*Beuls, K.*, and Van Eecke, P.",
+   "title": "Humans learn language from situated communicative interactions. What about machines?",
+   "venue": "Computational Linguistics 50(4): 1277–1311",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1162/coli_a_00534"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2024",
+   "authors": "Doumen, J., *Beuls, K.*, and Van Eecke, P.",
+   "title": "Modelling constructivist language acquisition through syntactico-semantic pattern finding",
+   "venue": "Royal Society Open Science, 11(7), 231998",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1098/rsos.231998"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2024",
+   "authors": "De Vos, L., Nevens, J., Van Eecke, P., and *Beuls, K.*",
+   "title": "Construction grammar and procedural semantics for human-interpretable grounded language processing",
+   "venue": "Linguistics Vanguard, 10(1): 565-574",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1515/lingvan-2022-0054"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2024",
+   "authors": "Moerman, T., Van Eecke, P., and *Beuls, K.*",
+   "title": "Evaluating Large-Scale Construction Grammars on the Tasks of Semantic Frame Extraction and Semantic Role Labeling",
+   "venue": "Constructions, 16(1)",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.24338/cons-651"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2022",
+   "authors": "Van Eecke, P., Nevens, J., and *Beuls, K.*",
+   "title": "Neural heuristics for scaling constructional language processing",
+   "venue": "Journal of Language Modelling, 10(2):287–314",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.15398/jlm.v10i2.318"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2022",
+   "authors": "Van Eecke, P., *Beuls, K.*, Botoko Ekila, J., and Radulescu, R.",
+   "title": "Language games meet multi-agent reinforcement learning: A case study for the naming game",
+   "venue": "Journal of Language Evolution, 7(2):213–223",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1093/jole/lzad001"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2022",
+   "authors": "van Trijp, R., *Beuls, K.*, and Van Eecke, P.",
+   "title": "The FCG Editor: An innovative environment for engineering computational construction grammars",
+   "venue": "PLOS ONE 17(6): e0269708",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1371/journal.pone.0269708"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2022",
+   "authors": "Willaert, T., Banisch, S., Van Eecke, P., and *Beuls, K.*",
+   "title": "Tracking causal relations in the news: Data, tools, and models for the analysis of argumentative statements in online media",
+   "venue": "Digital Scholarship in the Humanities, 37(4)",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1093/llc/fqab107"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2021",
+   "authors": "Willaert, T., Van Eecke, P., Van Soest, J., and *Beuls, K.*",
+   "title": "An opinion facilitator for online news media",
+   "venue": "Frontiers in Big Data, 4:695667",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.3389/fdata.2021.695667"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2021",
+   "authors": "Willaert, T., Van Eecke, P., Van Soest, J., and *Beuls, K.*",
+   "title": "A tool for tracking the propagation of words on Reddit",
+   "venue": "Computational Communication Research, 3(1):117–132",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.5117/CCR2021.1.005.WILL"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2021",
+   "authors": "*Beuls, K.*, Van Eecke, P., and Cangalovic, V. S.",
+   "title": "A computational construction grammar approach to semantic frame extraction",
+   "venue": "Linguistics Vanguard, 7(1):20180015",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1515/lingvan-2018-0015"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2020",
+   "authors": "Willaert, T., Van Eecke, P., *Beuls, K.*, and Steels, L.",
+   "title": "Building social media observatories for monitoring online opinion dynamics",
+   "venue": "Social Media + Society, 6(2):2056305119898778",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1177/2056305119898778"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2020",
+   "authors": "Nevens, J., Van Eecke, P., and *Beuls, K.*",
+   "title": "From continuous observations to symbolic concepts: A discrimination-based strategy for grounded concept learning",
+   "venue": "Frontiers in Robotics and AI, 7:84",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.3389/frobt.2020.00084"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2019",
+   "authors": "Nevens, J., Van Eecke, P., and *Beuls, K.*",
+   "title": "Computational construction grammar for visual question answering",
+   "venue": "Linguistics Vanguard, 5(1): 20180070",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1515/lingvan-2018-0070"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2018",
+   "authors": "Van Eecke, P. and *Beuls, K.*",
+   "title": "Exploring the creative potential of computational construction grammar",
+   "venue": "Zeitschrift für Anglistik und Amerikanistik, 66(3):341–355",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1515/zaa-2018-0029"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2017",
+   "authors": "*Beuls, K.*",
+   "title": "An open-ended computational construction grammar for Spanish verb conjugation",
+   "venue": "Constructions and Frames, 9(2):278–301",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1075/bct.106.cf.00005.beu"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2017",
+   "authors": "*Beuls, K.*, Knight, Y., and Spranger, M.",
+   "title": "Russian verbs of motion and their aspectual partners in Fluid Construction Grammar",
+   "venue": "Constructions and Frames, 9(2):302–320",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1075/bct.106.cf.00006.beu"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2016",
+   "authors": "*Beuls, K.* and Van Trijp, R.",
+   "title": "Computational construction grammar and constructional change",
+   "venue": "Belgian Journal of Linguistics, 30(1):1–13",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1075/bjl.30.01beu"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2016",
+   "authors": "Radulescu, R. and *Beuls, K.*",
+   "title": "Modelling pronominal gender agreement in Dutch: From a syntactic to a semantic strategy",
+   "venue": "Belgian Journal of Linguistics, 30:219–250",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1075/bjl.30.10rad"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2014",
+   "authors": "Pijpops, D. and *Beuls, K.*",
+   "title": "Agent-gebaseerde modellering in de historische taalkunde. Een model van regularisatiedruk op de Nederlandse werkwoorden",
+   "venue": "Handelingen van de Koninklijke Zuid-Nederlandse Maatschappij voor Taal- en Letterkunde en Geschiedenis, 68",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.21825/kzm.v68i0.17474"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2015",
+   "authors": "Pijpops, D., *Beuls, K.*, and Van de Velde, F.",
+   "title": "The rise of the verbal weak inflection in Germanic: An agent-based model",
+   "venue": "Computational Linguistics in the Netherlands, 5:81–102",
+   "links": [
+    [
+     "link",
+     "https://clinjournal.org/clinj/article/view/59/52"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2014",
+   "authors": "*Beuls, K.*",
+   "title": "Grammatical error diagnosis in Fluid Construction Grammar: A case study in L2 Spanish verb morphology",
+   "venue": "Computer Assisted Language Learning, 27:246–260",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1080/09588221.2012.724426"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2013",
+   "authors": "*Beuls, K.* and Steels, L.",
+   "title": "Agent-based models of strategies for the emergence and evolution of grammatical agreement",
+   "venue": "PLOS ONE, 8(3):e58960",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1371/journal.pone.0058960"
+    ]
+   ]
+  },
+  {
+   "type": "Journal",
+   "year": "2012",
+   "authors": "*Beuls, K.*",
+   "title": "Inflectional patterns as constructions: Spanish verb morphology in Fluid Construction Grammar",
+   "venue": "Constructions and Frames, 4(2):231–252",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1075/cf.4.2.04beu"
+    ]
+   ]
+  },
+  {
+   "type": "Conference",
+   "year": "2026",
+   "authors": "Van Eecke, P., and *Beuls, K.*",
+   "title": "A Method for Learning Large-Scale Computational Construction Grammars from Semantically Annotated Corpora",
+   "venue": "Proceedings of the 30th Conference on Computational Natural Language Learning",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/2026.conll-main.13/"
+    ]
+   ]
+  },
+  {
+   "type": "Conference",
+   "year": "2024",
+   "authors": "Nevens, J., De Haes, R., Ringe, R., Pomarlan, M., Porzel, R., *Beuls, K.*, & Van Eecke, P.",
+   "title": "A Benchmark for Recipe Understanding in Artificial Agents",
+   "venue": "Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/2024.lrec-main.3/"
+    ]
+   ]
+  },
+  {
+   "type": "Conference",
+   "year": "2024",
+   "authors": "Botoko Ekila, J., Nevens, J., Verheyen, L., *Beuls, K.*, and Van Eecke, P.",
+   "title": "Decentralised emergence of robust and adaptive linguistic conventions in populations of autonomous agents grounded in continuous worlds",
+   "venue": "AAMAS'24: Proceedings of the 23rd International Conference on Autonomous Agents and Multi-Agent Systems",
+   "links": [
+    [
+     "link",
+     "https://dl.acm.org/doi/10.5555/3635637.3663096"
+    ]
+   ]
+  },
+  {
+   "type": "Conference",
+   "year": "2023",
+   "authors": "Verheyen, L., Botoko Ekila, J., Nevens, J., Van Eecke, P., and *Beuls, K.*",
+   "title": "Neuro-symbolic procedural semantics for reasoning-intensive visual dialogue tasks",
+   "venue": "Proceedings of the 26th European Conference on Artificial Intelligence (ECAI 2023)",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.3233/FAIA230544"
+    ]
+   ]
+  },
+  {
+   "type": "Conference",
+   "year": "2023",
+   "authors": "Doumen, J., *Beuls, K.*, and Van Eecke, P.",
+   "title": "Modelling language acquisition through syntactico-semantic pattern finding",
+   "venue": "Findings of the Association for Computational Linguistics: EACL 2023",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/2023.findings-eacl.99/"
+    ]
+   ]
+  },
+  {
+   "type": "Conference",
+   "year": "2022",
+   "authors": "Nevens, J., Doumen, J., Van Eecke, P., and *Beuls, K.*",
+   "title": "Language acquisition through intention reading and pattern finding",
+   "venue": "Proceedings of the 29th International Conference on Computational Linguistics",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/2022.coling-1.2/"
+    ]
+   ]
+  },
+  {
+   "type": "Conference",
+   "year": "2016",
+   "authors": "Santos Marques, T. and *Beuls, K.*",
+   "title": "Evaluation strategies for computational construction grammars",
+   "venue": "Proceedings of COLING 2016: the 26th International Conference on Computational Linguistics (Technical Papers), Osaka, Japan",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/C16-1108/"
+    ]
+   ]
+  },
+  {
+   "type": "Conference",
+   "year": "2013",
+   "authors": "Wellens, P., van Trijp, R., *Beuls, K.*, and Steels, L.",
+   "title": "Fluid Construction Grammar for historical and evolutionary linguistics",
+   "venue": "Proceedings of the 51st Annual Meeting of the Association for Computational Linguistics: Systems Demonstrations, ACL 2013, Sofia, Romania",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/P13-4022/"
+    ]
+   ]
+  },
+  {
+   "type": "Conference",
+   "year": "2012",
+   "authors": "van Trijp, R., Steels, L., *Beuls, K.*, and Wellens, P.",
+   "title": "Fluid Construction Grammar: The new kid on the block",
+   "venue": "Proceedings of the Demonstrations at the 13th Conference of the European Chapter of the Association for computational Linguistics, EACL 2012, Avignon, France",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/E12-2013/"
+    ]
+   ]
+  },
+  {
+   "type": "Conference",
+   "year": "2011",
+   "authors": "*Beuls, K.* and Höfer, S.",
+   "title": "Simulating the emergence of grammatical agreement in multi-agent language games",
+   "venue": "Proceedings of the Twenty-Second International Joint Conference on Artificial Intelligence, IJCAI 2011",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.5591/978-1-57735-516-8/IJCAI11-022"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2026",
+   "authors": "*Beuls, K.* and Van Eecke, P.",
+   "title": "Fluid Construction Grammar",
+   "venue": "International Encyclopedia of Language and Linguistics, 3rd Edition",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1016/B978-0-323-95504-1.00599-8"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2025",
+   "authors": "*Beuls, K.* and Van Eecke, P.",
+   "title": "Construction grammar and artificial intelligence",
+   "venue": "The Cambridge Handbook of Construction Grammar",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1017/9781009049139.022"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2024",
+   "authors": "van Trijp, R., *Beuls, K.* and Van Eecke, P.",
+   "title": "The proof is in the almond cookies: A Case Study on Narrative-Based Understanding of Recipes",
+   "venue": "Narrative-based Understanding of Everyday Activities: A Cookbook",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.5281/zenodo.14199174"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2023",
+   "authors": "Peeters, S., Willaert, T., Tuters, M., *Beuls, K.*, Van Eecke, P., and Van Soest, J.",
+   "title": "A fringe mainstreamed, or tracing antagonistic slang between 4chan and Breitbart before and after Trump",
+   "venue": "How Misinformation Propagates on Social Media: A Cross-platform Analysis",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1515/9789048554249-009"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2019",
+   "authors": "Steels, L. and *Beuls, K.*",
+   "title": "En toen waren ze met 10 miljard: Hoe kunnen we in de toekomst miljarden AI-agenten de baas?",
+   "venue": "Homo Roboticus",
+   "links": [
+    [
+     "link",
+     "https://wekonekt.brussels/projects/homo-roboticus/"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2019",
+   "authors": "Steels, L. and *Beuls, K.*",
+   "title": "How do we stay in control of billions of AI agents?",
+   "venue": "Homo Roboticus",
+   "links": [
+    [
+     "link",
+     "https://wekonekt.brussels/projects/homo-roboticus/"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2019",
+   "authors": "*Beuls, K.*, Steels, L., and Van Eecke, P.",
+   "title": "Strategies for interactive task learning and teaching",
+   "venue": "Interactive Task Learning: Agents, Robots, and Humans Acquiring New Tasks through Natural Interaction",
+   "links": [
+    [
+     "link",
+     "https://esforum.de/publications/sfr26_Interactive_Task_Learning.html"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2017",
+   "authors": "Steels, L. and *Beuls, K.*",
+   "title": "How to explain the origins of complexity in language: A case study for agreement systems",
+   "venue": "Complexity in Language: Developmental and Evolutionary Perspectives",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1017/9781107294264.002"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2015",
+   "authors": "*Beuls, K.* and Loeckx, J.",
+   "title": "Steps towards intelligent MOOCs: A case study for learning counterpoint",
+   "venue": "Music Learning with Massive Open Online Courses",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:rO6llkc54NcC"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2012",
+   "authors": "Gerasymova, K., Spranger, M., and *Beuls, K.*",
+   "title": "A language strategy for aspect: Encoding Aktionsarten through morphology",
+   "venue": "Experiments in Cultural Language Evolution",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.3233/978-1-61499-593-7-119"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2012",
+   "authors": "*Beuls, K.*, Steels, L., and Höfer, S.",
+   "title": "The emergence of internal agreement systems",
+   "venue": "Experiments in Cultural Language Evolution",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1075/ais.3.12beu"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2012",
+   "authors": "*Beuls, K.*, van Trijp, R., and Wellens, P.",
+   "title": "Diagnostics and repairs in Fluid Construction Grammar",
+   "venue": "Language Grounding in Robots",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1007/978-1-4614-3064-3_11"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2012",
+   "authors": "*Beuls, K.*",
+   "title": "Handling scope in Fluid Construction Grammar: A case study for Spanish modals",
+   "venue": "Computational Issues in Fluid Construction Grammar",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1007/978-3-642-34120-5_6"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2011",
+   "authors": "*Beuls, K.*",
+   "title": "Construction sets and unmarked forms: A case study for Hungarian verbal agreement",
+   "venue": "Design Patterns in Fluid Construction Grammar",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1075/cal.11.13beu"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2026",
+   "authors": "Bonial, C., Post, B., Van Eecke, P., *Beuls, K.*, and Tayyar-Madabushi, H.",
+   "title": "CxGr-AMR: Extending Abstract Meaning Representation Beyond Lexically Anchored Relations with Constructional Rolesets",
+   "venue": "Proceedings of The Seventh International Workshop on Designing Meaning Representations (DMR 2026) @ LREC 2026",
+   "links": [
+    [
+     "link",
+     "https://lrec.elra.info/lrec2026-ws-dmr-01"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2026",
+   "authors": "De Vos, L., Meurant, L., Van Eecke, P., and *Beuls, K.*",
+   "title": "GeoQuery-LSFB: A French Belgian Sign Language Corpus with Procedural Semantic Annotations",
+   "venue": "Proceedings of the LREC 2026 12th Workshop on the Representation and Processing of Sign Languages: Language in Motion",
+   "links": [
+    [
+     "link",
+     "https://lrec.elra.info/lrec2026-ws-signlang-11"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2025",
+   "authors": "Verheyen, L., Doumen, J., Van Eecke, P., and *Beuls, K.*",
+   "title": "You shall know a construction by the company it keeps: Computational Construction Grammar with embeddings",
+   "venue": "Proceedings of the Second International Workshop on Construction Grammars and NLP (CxGs+NLP 2025)",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/2025.cxgsnlp-1.8/"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2025",
+   "authors": "Botoko Ekila, J., Verheyen, L., *Beuls, K.*, and Van Eecke, P.",
+   "title": "Constructions all the way up: From sensory experiences to construction grammars",
+   "venue": "Proceedings of the Second International Workshop on Construction Grammars and NLP (CxGs+NLP 2025)",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/2025.cxgsnlp-1.9/"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2025",
+   "authors": "De Vos, L., Van Eecke, P., and *Beuls, K.*",
+   "title": "A Computational Construction Grammar framework for modelling signed languages",
+   "venue": "Proceedings of the Second International Workshop on Construction Grammars and NLP (CxGs+NLP 2025)",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/2025.cxgsnlp-1.1/"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2023",
+   "authors": "Van Eecke, P., Verheyen, L., Willaert, T., and *Beuls, K.*",
+   "title": "The Candide model: How narratives emerge where observations meet beliefs",
+   "venue": "Proceedings of the 5th Workshop on Narrative Understanding (WNU)",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/2023.wnu-1.7/"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2023",
+   "authors": "*Beuls, K.* and Van Eecke, P.",
+   "title": "Fluid Construction Grammar: State of the art and future outlook",
+   "venue": "Proceedings of the First International Workshop on Construction Grammars and NLP (CxGs+NLP, GURT/SyntaxFest 2023)",
+   "links": [
+    [
+     "ACL Anthology",
+     "https://aclanthology.org/2023.cxgsnlp-1.6/"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2022",
+   "authors": "Verheyen, L., Botoko Ekila, J., Nevens, J., Van Eecke, P., and *Beuls, K.*",
+   "title": "Hybrid procedural semantics for visual dialogue: An interactive web demonstration",
+   "venue": "Proceedings of the Workshop on Semantic Techniques for Narrative-Based Understanding co-located with 31st International Joint Conference on Artificial Intelligence and the 25th European Conference on Artificial Intelligence (IJCAI-ECAI 2022)",
+   "links": [
+    [
+     "pdf",
+     "https://ceur-ws.org/Vol-3322/short8.pdf"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2020",
+   "authors": "Van Eecke, P. and *Beuls, K.*",
+   "title": "Re-conceptualising the language game paradigm in the framework of multi-agent reinforcement learning",
+   "venue": "AAAI Spring Symposium 2020: Challenges and Opportunities for Multi-Agent Reinforcement Learning",
+   "links": [
+    [
+     "arXiv",
+     "https://arxiv.org/abs/2004.04722"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2020",
+   "authors": "Nevens, J., Van Eecke, P., and *Beuls, K.*",
+   "title": "From continuous observations to symbolic concepts: A discrimination-based strategy for grounded concept learning",
+   "venue": "Proceedings of the 32nd Benelux Conference on Artificial Intelligence (BNAIC 2020) and the 29th Belgian Dutch Conference on Machine Learning (Benelearn 2020)"
+  },
+  {
+   "type": "Workshop",
+   "year": "2019",
+   "authors": "Nevens, J., Van Eecke, P., & *Beuls, K.*",
+   "title": "Interactive Learning of Grounded Concepts",
+   "venue": "Proceedings of the 31st Benelux Conference on Artificial Intelligence (BNAIC 2019) and the 28th Belgian Dutch Conference on Machine Learning (Benelearn 2019) (Vol. 2491, CEUR Workshop Proceedings). Brussels, Belgium",
+   "links": [
+    [
+     "pdf",
+     "https://ceur-ws.org/Vol-2491/demo85.pdf"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2019",
+   "authors": "Nevens, J., Van Eecke, P., and *Beuls, K.*",
+   "title": "A practical guide to studying emergent communication through grounded language games",
+   "venue": "AISB Language Learning for Artificial Agents Symposium",
+   "links": [
+    [
+     "arXiv",
+     "https://arxiv.org/abs/2004.09218"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2018",
+   "authors": "Steels, L., Van Eecke, P., and *Beuls, K.*",
+   "title": "Usage-based learning of grammatical categories",
+   "venue": "30th Benelux conference on artificial intelligence: BNAIC 2018 preproceedings",
+   "links": [
+    [
+     "arXiv",
+     "https://arxiv.org/abs/2204.10201"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2017",
+   "authors": "Hoorens, S., *Beuls, K.*, and Van Eecke, P.",
+   "title": "Constructions at work! Visualising linguistic pathways for computational construction grammar",
+   "venue": "29th Benelux conference on Artificial Intelligence: BNAIC 2017 preproceedings",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:lSLTfruPkqcC"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2017",
+   "authors": "Van Eecke, P. and *Beuls, K.*",
+   "title": "Meta-layer problem solving for computational construction grammar",
+   "venue": "The AAAI 2017 Spring Symposium on Computational Construction Grammar and Natural Language Understanding Technical Report SS-17-02",
+   "links": [
+    [
+     "pdf",
+     "https://cdn.aaai.org/ocs/15270/15270-68225-1-PB.pdf"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2016",
+   "authors": "Santos Marques, T. and *Beuls, K.*",
+   "title": "A construction grammar approach for pronominal clitics in European Portuguese",
+   "venue": "Computational Processing of the Portuguese Language: 12th International Conference, PROPOR 2016",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1007/978-3-319-41552-9_24"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2016",
+   "authors": "Spranger, M. and *Beuls, K.*",
+   "title": "Referential uncertainty and word learning in high-dimensional, continuous meaning spaces",
+   "venue": "2016 Joint IEEE International Conference on Development and Learning and Epigenetic Robotics (ICDL-EpiRob)",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.1109/DEVLRN.2016.7846796"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2013",
+   "authors": "*Beuls, K.*",
+   "title": "A constructionist approach to student modeling: tracing a student’s constructions through an agent-based tutoring architecture",
+   "venue": "20 Years of EUROCALL: Learning from the Past, Looking to the Future – Proceedings of the 2013 EUROCALL Conference, Evora, Portugal",
+   "links": [
+    [
+     "doi",
+     "https://doi.org/10.14705/rpnet.2013.000137"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2011",
+   "authors": "*Beuls, K.* and Höfer, S.",
+   "title": "Disambiguating stickers: grammatical agreement as a design pattern",
+   "venue": "23rd Benelux conference on Artificial Intelligence: BNAIC 2011 proceedings",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:2osOgNQ5qMEC"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2011",
+   "authors": "*Beuls, K.* and Bleys, J.",
+   "title": "Game-based language tutoring: A case study for colour",
+   "venue": "Proceedings of the IJCAI 2011 Workshop on Agents Learning Interactively from Human Teachers (ALIHT)",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:ufrVoPGSRksC"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2010",
+   "authors": "*Beuls, K.*, Gerasymova, K., and van Trijp, R.",
+   "title": "Situated learning through the use of language games: Solving the Hungarian agreement puzzle",
+   "venue": "Proceedings of the 19th Annual Machine Learning Conference of Belgium and The Netherlands, Benelearn 2010, 27-28 May, Leuven, Belgium",
+   "links": [
+    [
+     "pdf",
+     "https://dtai.cs.kuleuven.be/events/Benelearn2010/submissions/benelearn2010_submission_16.pdf"
+    ]
+   ]
+  },
+  {
+   "type": "Workshop",
+   "year": "2010",
+   "authors": "*Beuls, K.*, Pflugfelder, B., and Hanbury, A.",
+   "title": "Comparative analysis of balanced Winnow and SVM in large scale patent categorization",
+   "venue": "Proceedings of the 10th Dutch-Belgian Information Retrieval Workshop, DIR 2010, Nijmegen, The Netherlands",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:zYLM7Y9cAGgC"
+    ]
+   ]
+  },
+  {
+   "type": "Edited volume",
+   "year": "2026",
+   "authors": "*Beuls, K.*, and Frénay, B.",
+   "title": "Artificial Intelligence and Machine Learning: 37th Benelux Conference, BNAIC/Benelearn 2025, Namur, Belgium, November 19-21, 2025, Revised Selected Papers",
+   "venue": "Edited volume"
+  },
+  {
+   "type": "Edited volume",
+   "year": "2025",
+   "authors": "Bonial, C., Torgbi, M., Weissweiler, L., Blodgett, A., *Beuls, K.*, Van Eecke, P., & Madabushi, H. T.",
+   "title": "Proceedings of the Second International Workshop on Construction Grammars and NLP (CxGs+NLP), Düsseldorf, Germany, September 2025",
+   "venue": "Edited volume",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:eMMeJKvmdy0C"
+    ]
+   ]
+  },
+  {
+   "type": "Edited volume",
+   "year": "2023",
+   "authors": "Stork, L., *Beuls, K.*, and Steels, L.",
+   "title": "Proceedings of the Workshop on Semantic Techniques for Narrative-Based Understanding co-located with 31st International Joint Conference on Artificial Intelligence and the 25th European Conference on Artificial Intelligence (IJCAI-ECAI 2022), Vienna, Austria, July 24, 2022, volume 3322 of CEUR Workshop Proceedings",
+   "venue": "Edited volume, CEUR-WS.org"
+  },
+  {
+   "type": "Edited volume",
+   "year": "2019",
+   "authors": "*Beuls, K.*, Bogaerts, B., Bontempi, G., Geurts, G., Harley, N., Lebichot, B., Lenaerts, T., Louppe, G., and Van Eecke, P.",
+   "title": "Proceedings of the 31st Benelux Conference on Artificial Intelligence (BNAIC 2019) and the 28th Belgian Dutch Conference on Machine Learning (Benelearn 2019), Brussels, Belgium, November 6-8, 2019",
+   "venue": "Edited volume, CEUR Workshop Proceedings 2491, CEUR-WS.org",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:dfsIfKJdRG4C"
+    ]
+   ]
+  },
+  {
+   "type": "Edited volume",
+   "year": "2019",
+   "authors": "Steels, L. and *Beuls, K.*",
+   "title": "Case Studies in Fluid Construction Grammar: The verb phrase",
+   "venue": "Edited volume, John Benjamins Publishing Company, Amsterdam",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:uWQEDVKXjbEC"
+    ]
+   ]
+  },
+  {
+   "type": "Edited volume",
+   "year": "2017",
+   "authors": "*Beuls, K.* and Steels, L.",
+   "title": "Verb Phrase and Fluid Construction Grammar, volume 9 of Constructions and Frames, Amsterdam",
+   "venue": "Edited volume, John Benjamins Publishing Company"
+  },
+  {
+   "type": "Edited volume",
+   "year": "2017",
+   "authors": "*Beuls, K.*, de Boer, B., and Belpaeme, T.",
+   "title": "Luc Steels Growing Seeds: Cutting-edge research and mentorship since 1982",
+   "venue": "Edited volume, Berger & Montag Publishers, Antwerp",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:b0M2c_1WBrUC"
+    ]
+   ]
+  },
+  {
+   "type": "Edited volume",
+   "year": "2016",
+   "authors": "*Beuls, K.* and van Trijp, R.",
+   "title": "Computational construction grammar and constructional change, volume 30 of Belgian Journal of Linguistics, Amsterdam",
+   "venue": "Edited volume, John Benjamins Publishing Company"
+  },
+  {
+   "type": "Workshop",
+   "year": "2026",
+   "authors": "Verheyen, L., Gillain, J., Temmerman, A., Wright, J. D., Toquebiau, M., De Vos, L., *Beuls, K.*, and Van Eecke, P.",
+   "title": "Guess Who… in Robot Language?",
+   "venue": "HHAI 2026: Proceedings of the 5th International Conference on Hybrid Human-Artificial Intelligence",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:5awf1xo2G04C"
+    ]
+   ]
+  },
+  {
+   "type": "Book chapter",
+   "year": "2019",
+   "authors": "*Beuls, K.* and Steels, L.",
+   "title": "Approaches to the verb phrase in Fluid Construction Grammar",
+   "venue": "Case Studies in Fluid Construction Grammar: The verb phrase. John Benjamins",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:BqipwSGYUEgC"
+    ]
+   ]
+  },
+  {
+   "type": "Thesis",
+   "year": "2013",
+   "authors": "*Beuls, K.*",
+   "title": "Towards an agent-based tutoring system for Spanish verb conjugation",
+   "venue": "PhD thesis, Vrije Universiteit Brussel. Supervised by Luc Steels",
+   "links": [
+    [
+     "Google Scholar",
+     "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=ynF8ZAgAAAAJ&citation_for_view=ynF8ZAgAAAAJ:qxL8FJ1GzNcC"
+    ]
+   ]
+  }
+ ],
+ "talks": [
+  {
+   "year": "2027",
+   "title": "Plenary talk",
+   "where": "International Cognitive Linguistics Conference 18 (ICLC 18), FAU Erlangen-Nürnberg",
+   "date": "August 2027 (upcoming)"
+  },
+  {
+   "year": "2025",
+   "title": "Fluid Construction Grammar: State of the Art and Future Outlook; Fluid Construction Grammar meets CASA",
+   "where": "Invited lecture and seminar, RTG Dimensions of Constructional Space Welcome Week, Erlangen, Germany",
+   "date": "8-10 October 2025"
+  },
+  {
+   "year": "2025",
+   "title": "Sous le capot de ChatGPT",
+   "where": "Invited talk, UNamur study day on the topic of 'L'intelligence artificielle au service des apprentissages'",
+   "date": "4 July 2025"
+  },
+  {
+   "year": "2025",
+   "title": "Language and Creativity: A Computational Construction Grammar Perspective",
+   "where": "Invited talk, Workshop on Creativity and Construction Grammar, Eichstätt, Germany",
+   "date": "28 May 2025"
+  },
+  {
+   "year": "2024",
+   "title": "Emergence and Evolution of Linguistic Conventions in Populations of Autonomous Agents Grounded in Continuous Worlds",
+   "where": "Invited talk, ISIR research seminar, Paris, France",
+   "date": "12 December 2024"
+  },
+  {
+   "year": "2024",
+   "title": "Emergence and evolution of symbolic communication and reasoning in a physical world",
+   "where": "Invited talk, EUTOPIA workshop on Qualitative Reasoning, Ljubljana, Slovenia (online)",
+   "date": "6 February 2024",
+   "note": "Joint talk with P. Van Eecke"
+  },
+  {
+   "year": "2023",
+   "title": "Human-like language learning in machines",
+   "where": "Invited FACt talk, BNAIC 2023, Delft, The Netherlands",
+   "date": "9 November 2023"
+  },
+  {
+   "year": "2023",
+   "title": "Modelling Grounded Language Acquisition in Autonomous Agents through Task-based Communicative Interactions in Situated Environments",
+   "where": "Invited seminar, U.S. Army DEVCOM Army Research Laboratory, NLP Round Table, Online",
+   "date": "5 May 2023",
+   "note": "Joint talk with P. Van Eecke"
+  },
+  {
+   "year": "2023",
+   "title": "Fluid Construction Grammar: State of the Art and Future Outlook",
+   "where": "Invited talk, Cycle de conférences NaLTT - printemps 2023 (2/4): Langue et informatique, Namur",
+   "date": "30 March 2023"
+  },
+  {
+   "year": "2023",
+   "title": "Round table on the future of research in (computational) linguistics",
+   "where": "Panel member, GURT, Georgetown University, Washington DC",
+   "date": "13 March 2023"
+  },
+  {
+   "year": "2023",
+   "title": "Building machines that learn and use language in a similar way than we do",
+   "where": "Invited talk, UNamur Women and Girls in Science event",
+   "date": "9 February 2023"
+  },
+  {
+   "year": "2022",
+   "title": "Unravelling the Computational Mechanisms Underlying the Emergence of Human-like Communication Systems in Populations of Autonomous Agents",
+   "where": "Invited talk, Austrian Research Institute for Artificial Intelligence, OFAI lecture series, Vienna, Austria",
+   "date": "27 July 2022"
+  },
+  {
+   "year": "2022",
+   "title": "Unravelling the Computational Mechanisms Underlying the Emergence of Human-like Communication Systems in Populations of Autonomous Agents",
+   "where": "Inaugural lecture, UNamur, Faculty of Computer Science, InForum lecture series",
+   "date": "16 June 2022"
+  },
+  {
+   "year": "2022",
+   "title": "La grammaire de construction et l’intelligence artificielle",
+   "where": "Invited seminar, UCLouvain, Séminaires du CENTAL",
+   "date": "19 April 2022"
+  },
+  {
+   "year": "2020",
+   "title": "Towards a neuro-symbolic cognitive architecture",
+   "where": "Invited seminar, VUB Data Analytics Lab, Integrated Intelligence Seminar series",
+   "date": "6 November 2020",
+   "note": "Joint talk with P. Van Eecke"
+  },
+  {
+   "year": "2019",
+   "title": "AI and NLP tools for computational social science",
+   "where": "Invited lecture, Summer school on democracy in the age of big data and AI, University Ca’Foscari, Venice",
+   "date": "17 September 2019"
+  },
+  {
+   "year": "2019",
+   "title": "Emergent communication in physically grounded robots",
+   "where": "Invited lecture, UGent, Quetelet College",
+   "date": "30 April 2019"
+  },
+  {
+   "year": "2019",
+   "title": "Extracting semantic frames from the news",
+   "where": "Invited talk, Workshop on Text Mining and Text Analysis, Université Paris Diderot",
+   "date": "25 January 2019"
+  },
+  {
+   "year": "2018",
+   "title": "Fluid Construction Grammar and its Applications",
+   "where": "Invited lecture, Heinrich Heine Universität Düsseldorf",
+   "date": "29 November 2018",
+   "note": "Joint talk with P. Van Eecke"
+  },
+  {
+   "year": "2018",
+   "title": "Insight learning in emergent AI systems",
+   "where": "Invited lecture, Advanced Machine Learning training organized by imec, Leuven",
+   "date": "19 September 2018"
+  },
+  {
+   "year": "2018",
+   "title": "Introducing the Odycceus project: Opinion DYnamics and Cultural Conflict in the EUropean Space",
+   "where": "Invited talk, VUB-SMIT",
+   "date": "25 June 2018"
+  },
+  {
+   "year": "2016",
+   "title": "Simulating resemanticization processes in Dutch pronominal gender agreement",
+   "where": "Invited talk, Workshop on the Mechanisms of Grammatical Change, Wissenschaftskolleg Berlin",
+   "date": "2-3 June 2016"
+  },
+  {
+   "year": "2015",
+   "title": "An open-ended construction based grammar for the Spanish verb phrase",
+   "where": "Invited seminar, Morphology Days, KU Leuven",
+   "date": "17 December 2015"
+  },
+  {
+   "year": "2015",
+   "title": "Agent-based models of strategies for the emergence and evolution of grammatical agreement",
+   "where": "Invited talk, CS-DC'15 World e-Conference, Evolution of Languages E-session",
+   "date": "1 October 2015"
+  },
+  {
+   "year": "2015",
+   "title": "Computational construction grammar and constructional change",
+   "where": "Invited lecture, 2nd ESSENCE Summer School, University of Edinburgh, Scotland",
+   "date": "27 August 2015",
+   "note": "Joint talk with R. van Trijp"
+  },
+  {
+   "year": "2014",
+   "title": "Computational construction grammar for speech",
+   "where": "Invited seminar, University College Berkeley, CogNetwork seminar series",
+   "date": "8 October 2014"
+  },
+  {
+   "year": "2014",
+   "title": "Agent-Based Models of Strategies for the Emergence and Evolution of Grammatical Agreement",
+   "where": "Invited seminar, Université de Lille 3",
+   "date": "23 May 2014"
+  },
+  {
+   "year": "2013",
+   "title": "Emergence of Syntax",
+   "where": "Invited talk, International Summerschool on Agent-based Models of Creativity, Cortona, Italy",
+   "date": "19 September 2013"
+  },
+  {
+   "year": "2013",
+   "title": "Agent-Based Models of Strategies for the Emergence and Evolution of Grammatical Agreement",
+   "where": "Invited seminar, Werkgroep Over Taal, Vrije Universiteit Brussel",
+   "date": "18 April 2013"
+  },
+  {
+   "year": "2013",
+   "title": "A first encounter with Fluid Construction Grammar",
+   "where": "Invited seminar, Grup de Tecnologies dels Recursos Lingüístics, Universitat Pompeu Fabra",
+   "date": "4 March 2013"
+  },
+  {
+   "year": "2012",
+   "title": "When will they start to speak? A roadmap for endowing robots with language capacities",
+   "where": "Invited talk, 5th International Workshop on Human-Friendly Robotics, KMS Brussels",
+   "date": "19 October 2012"
+  },
+  {
+   "year": "2011",
+   "title": "Evolutionary Simulations on the Emergence of Grammatical Agreement",
+   "where": "Invited talk, workshop on Alife Approaches to Artificial Language Evolution (part of ECAL 2011), Paris, France",
+   "date": "8 August 2011"
+  }
+ ],
+ "teaching": {
+  "Courses at the Université de Namur": [
+   {
+    "title": "Natural Language Processing",
+    "where": "Master in Computer Science, since 2023",
+    "links": [
+     [
+      "course page",
+      "https://www.unamur.be/en/natural-language-processing-13"
+     ]
+    ]
+   },
+   {
+    "title": "Machine Learning",
+    "where": "Master in Computer Science (evening programme), since 2022",
+    "links": [
+     [
+      "course page",
+      "https://www.unamur.be/en/machine-learning-12"
+     ]
+    ]
+   },
+   {
+    "title": "Actualités en data science",
+    "where": "Master in Computer Science, since 2023. Invited seminars by researchers from academia and industry.",
+    "links": [
+     [
+      "course page",
+      "https://www.unamur.be/en/data-science-news-3"
+     ]
+    ]
+   },
+   {
+    "title": "Projet en data analytics",
+    "where": "Master programmes in Computer Science, Business Engineering and Mathematics, since 2024. Co-taught with Prof. A. Simonofski.",
+    "links": [
+     [
+      "course page",
+      "https://www.unamur.be/en/data-analytics-project-13"
+     ]
+    ]
+   },
+   {
+    "title": "Bases de données et modélisation",
+    "where": "Bachelor in Computer Science, UCLouvain (Charleroi campus), since 2022",
+    "links": [
+     [
+      "course page",
+      "https://uclouvain.be/cours-2026-LSINC1301"
+     ]
+    ]
+   },
+   {
+    "title": "Techniques d’interaction et de visualisation",
+    "where": "Bachelor in Computer Science, UCLouvain (Charleroi campus), since 2024",
+    "links": [
+     [
+      "course page",
+      "https://uclouvain.be/cours-2026-LSINC1201"
+     ]
+    ]
+   },
+   {
+    "title": "Machine learning and data mining",
+    "where": "Master in Cybersecurity, organised by the Université Libre de Bruxelles, since 2023",
+    "links": [
+     [
+      "course page",
+      "https://www.unamur.be/en/machine-learning-and-data-mining-31"
+     ]
+    ]
+   }
+  ],
+  "Earlier teaching": [
+   {
+    "title": "Natural Language Processing",
+    "where": "Master of Engineering: Computer Science, Vrije Universiteit Brussel, 2014–2022"
+   },
+   {
+    "title": "Artificial Intelligence Programming Paradigms",
+    "where": "Master of Engineering: Computer Science, Vrije Universiteit Brussel, 2014–2022"
+   }
+  ],
+  "PhD students": [
+   {
+    "title": "Jonas Gillain",
+    "where": "UNamur / VUB, since 2025"
+   },
+   {
+    "title": "Jamie Wright",
+    "where": "UNamur / VUB, since 2024"
+   },
+   {
+    "title": "Fabio De Ponte",
+    "where": "UNamur / VUB, since 2024"
+   },
+   {
+    "title": "Jérôme Botoko Ekila",
+    "where": "VUB, since 2021"
+   },
+   {
+    "title": "Liesbet De Vos",
+    "where": "UNamur, 2022–2026. SignFCG: a framework for operationalising sign language constructions in computational construction grammar."
+   }
+  ],
+  "Former PhD students": [
+   {
+    "title": "Lara Verheyen",
+    "where": "VUB, 2019–2023. Procedural semantics for human-like language understanding in situated environments."
+   },
+   {
+    "title": "Jens Nevens",
+    "where": "VUB, 2017–2022. Representing and learning linguistic structures on the conceptual, morpho-syntactic and semantic level."
+   },
+   {
+    "title": "Paul Van Eecke",
+    "where": "VUB, 2014–2018, with Luc Steels. Generalisation and specialisation operators for computational construction grammar."
+   }
+  ]
+ }
+};
+/* ============================================================ */
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const authors = s => esc(s).replace(/\*([^*]+)\*/g, '<span class="me">$1</span>');
+const linkRow = links => links && links.length
+  ? `<div class="e-links">${links.map(([l, u]) => `<a href="${esc(u)}">${esc(l)}</a>`).join("")}</div>` : "";
+const slug = y => "y-" + String(y).toLowerCase().replace(/[^a-z0-9]+/g, "-");
+const TYPES = ["Journal", "Conference", "Book chapter", "Workshop", "Edited volume", "Thesis"];
+const TYPE_LABEL = { "Journal": "Journal papers", "Conference": "Conference papers", "Book chapter": "Book chapters", "Workshop": "Workshop & other papers", "Edited volume": "Edited volumes", "Thesis": "Thesis" };
+let pubFilter = "all";
+
+function groupByYear(items) {
+  const groups = new Map();
+  items.forEach(it => { if (!groups.has(it.year)) groups.set(it.year, []); groups.get(it.year).push(it); });
+  return [...groups.entries()].sort((a, b) => {
+    const na = isNaN(+a[0]) ? 9999 : +a[0], nb = isNaN(+b[0]) ? 9999 : +b[0];
+    return nb - na;
+  });
+}
+
+function renderPubs() {
+  const items = SITE.publications.filter(p => pubFilter === "all" || p.type === pubFilter);
+  const groups = groupByYear(items);
+  document.getElementById("pubJump").innerHTML = groups.map(([y]) => `<a href="#publications/${slug(y)}">${esc(y)}</a>`).join("");
+  document.getElementById("pubList").innerHTML = groups.map(([y, list]) => `
+    <h3 class="year" id="${slug(y)}">${esc(y)}</h3>
+    <ul class="entries">${list.map(p => `
+      <li>
+        <div class="e-authors">${authors(p.authors)}</div>
+        <div><span class="e-title">${esc(p.title)}.</span> <span class="e-venue">${esc(p.venue || "")}</span>${p.status ? `<span class="award">${esc(p.status)}</span>` : ""}</div>
+        <div class="e-meta"><span class="tag">${esc(p.type)}</span>${linkRow(p.links)}</div>
+      </li>`).join("")}</ul>`).join("");
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c.dataset.type === pubFilter));
+}
+
+function render() {
+  document.title = SITE.name;
+  ["siteTitle", "sbName"].forEach(id => document.getElementById(id).textContent = SITE.name);
+  document.getElementById("sbRole").textContent = SITE.role;
+  const av = document.getElementById("avatar");
+  if (SITE.photo) av.innerHTML = `<img src="${esc(SITE.photo)}" alt="Photo of ${esc(SITE.name)}">`;
+  else av.textContent = SITE.initials;
+  document.getElementById("sbLinks").innerHTML = SITE.links.map(l => `<li><a href="${esc(l.url)}">${esc(l.label)}</a></li>`).join("");
+  document.getElementById("aboutText").innerHTML = SITE.about.map(p => `<p>${esc(p)}</p>`).join("");
+  document.getElementById("projectList").innerHTML = SITE.projects.map(p => `
+    <li><div><span class="e-title">${p.url ? `<a href="${esc(p.url)}">${esc(p.title)}</a>` : esc(p.title)}</span></div><div>${esc(p.text)}</div></li>`).join("");
+  document.getElementById("newsList").innerHTML = SITE.news.map(n => `<li><time>${esc(n.date)}</time><span>${esc(n.text)}${n.url ? ` <a href="${esc(n.url)}">${esc(n.linkText || "Link")}</a>` : ""}</span></li>`).join("");
+  document.getElementById("pubNote").innerHTML = SITE.scholarNote.replace("Google Scholar", `<a href="${esc(SITE.scholarUrl)}">Google Scholar</a>`);
+
+  const counts = Object.fromEntries(TYPES.map(t => [t, SITE.publications.filter(p => p.type === t).length]));
+  document.getElementById("pubFilter").innerHTML =
+    `<button class="chip" type="button" data-type="all">All (${SITE.publications.length})</button>` +
+    TYPES.filter(t => counts[t]).map(t => `<button class="chip" type="button" data-type="${esc(t)}">${esc(TYPE_LABEL[t])} (${counts[t]})</button>`).join("");
+  document.getElementById("pubFilter").addEventListener("click", e => {
+    const b = e.target.closest(".chip"); if (!b) return;
+    pubFilter = b.dataset.type; renderPubs();
+  });
+  renderPubs();
+
+  document.getElementById("talkList").innerHTML = groupByYear(SITE.talks).map(([y, list]) => `
+    <h3 class="year">${esc(y)}</h3>
+    <ul class="entries">${list.map(t => `
+      <li><div class="e-title">${esc(t.title)}</div><div class="e-venue">${esc(t.where)}${t.date ? `, ${esc(t.date)}` : ""}</div>${t.note ? `<div class="note">${esc(t.note)}</div>` : ""}</li>`).join("")}</ul>`).join("");
+
+  document.getElementById("teachList").innerHTML = Object.keys(SITE.teaching).map(k => `
+    <h3 class="year">${esc(k)}</h3>
+    <ul class="entries">${SITE.teaching[k].map(t => `
+      <li><div class="e-title">${esc(t.title)}</div><div class="e-venue">${esc(t.where)}</div>${linkRow(t.links)}</li>`).join("")}</ul>`).join("");
+  document.getElementById("copy").textContent = `© ${new Date().getFullYear()} ${SITE.name}`;
+}
+
+/* Hash routing: #about, #publications, #publications/y-2025, and so on */
+const PAGES = ["about", "publications", "talks", "teaching"];
+function route() {
+  const [page, anchor] = (location.hash.slice(1) || "about").split("/");
+  const current = PAGES.includes(page) ? page : "about";
+  PAGES.forEach(p => document.getElementById("page-" + p).hidden = p !== current);
+  document.querySelectorAll("nav a").forEach(a => {
+    if (a.getAttribute("href") === "#" + current) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+  const target = anchor && document.getElementById(anchor);
+  if (target) target.scrollIntoView();
+  else window.scrollTo(0, 0);
+}
+/* Banner: quiet contour lines, seeded from the name so they stay the same */
+function banner() {
+  const svg = document.getElementById("banner");
+  const W = 1600, H = 240;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  let seed = [...SITE.name].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+  const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+  const waves = Array.from({ length: 4 }, () => ({ f: 0.002 + rnd() * 0.006, p: rnd() * 6.28, a: 8 + rnd() * 22 }));
+  let paths = "";
+  const n = 22;
+  for (let i = 0; i < n; i++) {
+    const base = (i / (n - 1)) * (H + 40) - 20;
+    let d = "";
+    for (let x = 0; x <= W; x += 16) {
+      let y = base;
+      waves.forEach((w, k) => { y += Math.sin(x * w.f + w.p + i * 0.18 * (k + 1)) * w.a * (0.4 + i / n); });
+      d += (x ? "L" : "M") + x + " " + y.toFixed(1);
+    }
+    const t = i / (n - 1);
+    paths += `<path d="${d}" fill="none" stroke="${t > 0.5 ? "var(--banner-a)" : "var(--banner-b)"}" stroke-width="${(0.8 + t * 0.9).toFixed(2)}" opacity="${(0.25 + t * 0.6).toFixed(2)}"/>`;
+  }
+  svg.innerHTML = paths;
+}
+
+/* Theme toggle (remembered per viewer) */
+function initTheme() {
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  if (saved) document.documentElement.dataset.theme = saved;
+  document.getElementById("themeBtn").addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === "dark"
+      : matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem("theme", next); } catch (e) {}
+  });
+}
+
+render(); banner(); initTheme(); route();
+window.addEventListener("hashchange", route);
+</script>
+</body>
+</html>
