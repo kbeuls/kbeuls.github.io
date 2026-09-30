@@ -623,9 +623,9 @@
       ],
       "about": [
         "I am an associate professor at the Faculty of Computer Science of the Université de Namur, where I am part of the Namur Digital Institute (NaDI). My research asks how machines could learn and use language the way people do: through situated, communicative interactions with others, rather than from text alone.",
-        "I work on computational construction grammar, and in particular Fluid Construction Grammar; on the emergence of communication systems in populations of autonomous agents; and on neuro-symbolic approaches to grounded, human-interpretable language understanding.",
+        "I work on computational construction grammar, and in particular [Fluid Construction Grammar](https://fcg-net.org); on the emergence of communication systems in populations of autonomous agents; and on neuro-symbolic approaches to grounded, human-interpretable language understanding.",
         "Before moving to Namur in 2022, I spent more than a decade at the Artificial Intelligence Lab of the Vrije Universiteit Brussel, first as a PhD student with Luc Steels and later as a postdoctoral researcher and guest professor. I studied speech and language processing at the University of Edinburgh and language and literature at KU Leuven.",
-        "I am president of the Evolutionary Linguistics Association and a member of ELLIS."
+        "I am president of the [Evolutionary Linguistics Association](https://emergent-languages.org/ela/) and a member of ELLIS."
       ],
       "projects": [
         {
@@ -661,15 +661,15 @@
         },
         {
           "date": "Jul 2026",
-          "text": "Shortlisted for the Falling Walls Scientific Breakthrough of the Year 2026, in the Humanities and Social Sciences category."
+          "text": "Shortlisted for the [Falling Walls Scientific Breakthrough of the Year 2026](https://falling-walls.com/breakthroughs/finalists-interviews/katrien-beuls), in the Humanities and Social Sciences category."
         },
         {
           "date": "Jul 2026",
-          "text": "Publication chair of CoNLL 2026 in San Diego, where Paul Van Eecke and I published a method for learning large-scale construction grammars from semantically annotated corpora."
+          "text": "Publication chair of CoNLL 2026 in San Diego, where Paul Van Eecke and I published [a method for learning large-scale construction grammars from semantically annotated corpora](https://aclanthology.org/2026.conll-main.13/)."
         },
         {
           "date": "Nov 2025",
-          "text": "General chair of BNAIC/BeNeLearn 2025, hosted in Namur."
+          "text": "General chair of [BNAIC/BeNeLearn 2025](https://bnaic2025.unamur.be), hosted in Namur."
         },
         {
           "date": "Apr 2025",
@@ -2092,6 +2092,7 @@
     /* ============================================================ */
 
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const inline = s => esc(s).replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2">$1</a>');
     const authors = s => esc(s).replace(/\*([^*]+)\*/g, '<span class="me">$1</span>');
     const linkRow = links => links && links.length
       ? `<div class="e-links">${links.map(([l, u]) => `<a href="${esc(u)}">${esc(l)}</a>`).join("")}</div>` : "";
@@ -2132,10 +2133,10 @@
       if (SITE.photo) av.innerHTML = `<img src="${esc(SITE.photo)}" alt="Photo of ${esc(SITE.name)}">`;
       else av.textContent = SITE.initials;
       document.getElementById("sbLinks").innerHTML = SITE.links.map(l => `<li><a href="${esc(l.url)}">${esc(l.label)}</a></li>`).join("");
-      document.getElementById("aboutText").innerHTML = SITE.about.map(p => `<p>${esc(p)}</p>`).join("");
+      document.getElementById("aboutText").innerHTML = SITE.about.map(p => `<p>${inline(p)}</p>`).join("");
       document.getElementById("projectList").innerHTML = SITE.projects.map(p => `
     <li><div><span class="e-title">${p.url ? `<a href="${esc(p.url)}">${esc(p.title)}</a>` : esc(p.title)}</span></div><div>${esc(p.text)}</div></li>`).join("");
-      document.getElementById("newsList").innerHTML = SITE.news.map(n => `<li><time>${esc(n.date)}</time><span>${esc(n.text)}${n.url ? ` <a href="${esc(n.url)}">${esc(n.linkText || "Link")}</a>` : ""}</span></li>`).join("");
+      document.getElementById("newsList").innerHTML = SITE.news.map(n => `<li><time>${esc(n.date)}</time><span>${inline(n.text)}${n.url ? ` <a href="${esc(n.url)}">${esc(n.linkText || "Link")}</a>` : ""}</span></li>`).join("");
       document.getElementById("pubNote").innerHTML = SITE.scholarNote.replace("Google Scholar", `<a href="${esc(SITE.scholarUrl)}">Google Scholar</a>`);
 
       const counts = Object.fromEntries(TYPES.map(t => [t, SITE.publications.filter(p => p.type === t).length]));
