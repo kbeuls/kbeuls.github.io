@@ -6,134 +6,138 @@
 <title>Katrien Beuls</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Sora:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #F7F8FA;
+  /* Palette taken from hermes-programme.eu */
+  --bg: #F3F3F3;          /* HERMES grey section */
   --surface: #FFFFFF;
-  --ink: #1C2430;
-  --muted: #5B6675;
-  --rule: #DDE2E8;
-  --accent: #1F5F8B;
-  --accent-soft: #E3EDF5;
-  --banner-a: #1F5F8B;
-  --banner-b: #9DB7CC;
-  --serif: "Newsreader", Georgia, "Times New Roman", serif;
-  --sans: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --hero: #C7DDF2;        /* HERMES light-blue header/hero */
+  --ink: #0E0E0E;         /* headings */
+  --text: #575757;        /* body copy */
+  --muted: #6B6B6B;
+  --rule: rgba(14, 14, 14, 0.2);
+  --accent: #2A7BC6;      /* HERMES blue (buttons) */
+  --link: #2369AC;        /* slightly darker for AA contrast on grey */
+  --accent-soft: #DCE9F6;
+  --navy: #262A64;        /* HERMES logo navy */
+  --serif: "Libertinus Serif", "Linux Libertine", "Linux Libertine O", Georgia, "Times New Roman", serif;
+  --sans: "Sora", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #12171E; --surface: #19202A; --ink: #E4E8EE; --muted: #9AA5B3;
-    --rule: #2A3441; --accent: #7FB3DA; --accent-soft: #1E2E3D;
-    --banner-a: #7FB3DA; --banner-b: #2F4A60;
+    --bg: #11151F; --surface: #171C28; --hero: #1B2740; --ink: #EEF1F6; --text: #C3C9D3; --muted: #9AA3B0;
+    --rule: rgba(238, 241, 246, 0.16); --accent: #5A9FE0; --link: #8DBDEB; --accent-soft: #1E2E45; --navy: #AFC6EE;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #12171E; --surface: #19202A; --ink: #E4E8EE; --muted: #9AA5B3;
-  --rule: #2A3441; --accent: #7FB3DA; --accent-soft: #1E2E3D;
-  --banner-a: #7FB3DA; --banner-b: #2F4A60;
+  --bg: #11151F; --surface: #171C28; --hero: #1B2740; --ink: #EEF1F6; --text: #C3C9D3; --muted: #9AA3B0;
+  --rule: rgba(238, 241, 246, 0.16); --accent: #5A9FE0; --link: #8DBDEB; --accent-soft: #1E2E45; --navy: #AFC6EE;
 }
 *, *::before, *::after { box-sizing: inherit; }
-html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px); }
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 80px); }
 body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font-family: var(--sans); font-size: 1rem; line-height: 1.6;
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: var(--serif); font-size: 1.0625rem; line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 a:hover { text-decoration-thickness: 2px; }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 img { max-width: 100%; }
 
-/* Top bar */
+/* Top bar — light blue like the HERMES header */
 .topbar {
   position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
-  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  background: color-mix(in srgb, var(--hero) 94%, transparent);
   backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule);
 }
 .topbar-inner {
-  max-width: 1120px; margin: 0 auto; padding: 0.9rem 1.5rem;
-  display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  max-width: 1160px; margin: 0 auto; padding: 1.1rem 1.875rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
 }
-.site-title { font-family: var(--serif); font-size: 1.35rem; font-weight: 500; color: var(--ink); text-decoration: none; }
-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.4rem; flex-wrap: wrap; }
-nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; padding-bottom: 3px; border-bottom: 2px solid transparent; }
-nav a:hover { color: var(--ink); }
+.site-title { font-family: var(--serif); font-size: 1.6rem; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: 0.01em; }
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.6rem; flex-wrap: wrap; }
+nav a { font-family: var(--sans); font-weight: 600; color: var(--ink); text-decoration: none; font-size: 0.92rem; padding-bottom: 4px; border-bottom: 2px solid transparent; }
+nav a:hover { color: var(--accent); }
 nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
 
-/* Banner: generated contour lines */
-.banner { height: 200px; overflow: hidden; border-bottom: 1px solid var(--rule); background: var(--surface); }
-.banner svg { display: block; width: 100%; height: 100%; }
+/* Banner image */
+.banner { height: 200px; overflow: hidden; border-bottom: 1px solid var(--rule); background: var(--hero); }
+.banner img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
 
 /* Layout */
 .wrap {
-  max-width: 1120px; margin: 0 auto; padding: 0 1.5rem 4rem;
+  max-width: 1160px; margin: 0 auto; padding: 0 1.875rem 5rem;
   display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 3.5rem;
 }
 .sidebar { position: relative; margin-top: -64px; }
-.sidebar-inner { position: sticky; top: 90px; }
+.sidebar-inner { position: sticky; top: 100px; }
 .avatar {
   width: 148px; height: 148px; border-radius: 50%;
   border: 4px solid var(--bg); background: var(--accent-soft);
   display: grid; place-items: center; overflow: hidden;
-  font-family: var(--serif); font-size: 3rem; color: var(--accent);
+  font-family: var(--serif); font-size: 3rem; color: var(--navy);
 }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
-.sidebar h2 { font-family: var(--serif); font-weight: 500; font-size: 1.45rem; margin: 1rem 0 0.2rem; line-height: 1.25; }
-.role { color: var(--muted); font-size: 0.95rem; margin: 0 0 1.1rem; }
-.links { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.35rem; font-size: 0.95rem; }
+.sidebar h2 { font-family: var(--serif); font-weight: 700; font-size: 1.5rem; color: var(--ink); margin: 1rem 0 0.2rem; line-height: 1.2; }
+.role { color: var(--text); font-style: italic; font-size: 1rem; margin: 0 0 1.1rem; }
+.links { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.35rem; font-size: 1rem; }
 
-main { padding-top: 2.5rem; min-width: 0; }
+main { padding-top: 2.75rem; min-width: 0; }
 .page[hidden] { display: none; }
-h1 { font-family: var(--serif); font-weight: 500; font-size: 2.4rem; line-height: 1.15; margin: 0 0 1.5rem; }
+h1 { font-family: var(--serif); font-weight: 700; font-size: 2.75rem; line-height: 1.05; color: var(--ink); margin: 0 0 1.5rem; }
 h3.year {
-  font-family: var(--serif); font-weight: 500; font-size: 1.5rem; margin: 2.5rem 0 0.8rem;
+  font-family: var(--serif); font-weight: 700; font-variant: small-caps; font-size: 1.55rem; color: var(--ink); margin: 2.5rem 0 0.8rem;
   padding-bottom: 0.3rem; border-bottom: 1px solid var(--rule);
 }
 .prose { max-width: 68ch; }
 .prose p { margin: 0 0 1.1rem; }
-.prose h3 { font-family: var(--serif); font-weight: 500; font-size: 1.35rem; margin: 2.2rem 0 0.6rem; }
+.prose h3 { font-family: var(--serif); font-weight: 700; font-variant: small-caps; font-size: 1.4rem; color: var(--ink); margin: 2.2rem 0 0.6rem; }
 
 /* Year jump list */
-.jump { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; font-size: 0.92rem; margin: -0.5rem 0 1rem; }
+.jump { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; font-size: 0.98rem; margin: -0.5rem 0 1rem; }
 .jump a { color: var(--muted); }
-.note { color: var(--muted); font-size: 0.95rem; }
-.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 1rem; }
-.chip { font: inherit; font-size: 0.88rem; color: var(--muted); background: transparent; border: 1px solid var(--rule); border-radius: 999px; padding: 0.2rem 0.75rem; cursor: pointer; }
-.chip:hover { color: var(--ink); border-color: var(--muted); }
-.chip[aria-pressed="true"] { color: var(--accent); background: var(--accent-soft); border-color: var(--accent); }
+.note { color: var(--muted); font-size: 1rem; font-style: italic; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0 0 1rem; }
+.chip { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 0.35rem 0.85rem; cursor: pointer; }
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip[aria-pressed="true"] { color: #FFFFFF; background: var(--accent); border-color: var(--accent); }
 .e-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.8rem; margin-top: 0.25rem; }
 .e-meta .e-links { margin-top: 0; }
-.tag { font-size: 0.8rem; color: var(--muted); }
+.tag { font-family: var(--sans); font-size: 0.72rem; color: var(--muted); }
 .jump { margin: 0 0 1rem; }
 #projectList { margin-bottom: 1rem; }
 
 
 /* Entries */
 .entries { list-style: none; margin: 0; padding: 0; max-width: 72ch; }
-.entries li { padding: 0.75rem 0; }
+.entries li { padding: 0.8rem 0; }
 .entries li + li { border-top: 1px dashed var(--rule); }
-.e-title { font-weight: 600; }
+.e-title { font-weight: 700; color: var(--ink); }
 .e-authors .me { text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
 .e-venue { font-style: italic; color: var(--muted); }
-.award { display: inline-block; font-size: 0.8rem; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 0 0.45rem; border-radius: 3px; margin-left: 0.3rem; }
-.e-links { margin-top: 0.25rem; font-size: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.2rem 0.7rem; }
+.award { display: inline-block; font-family: var(--sans); font-size: 0.72rem; font-weight: 600; color: #FFFFFF; background: var(--accent); padding: 0.05rem 0.5rem; border-radius: 4px; margin-left: 0.3rem; vertical-align: 0.1em; }
+.e-links { margin-top: 0.25rem; font-size: 0.95rem; display: flex; flex-wrap: wrap; gap: 0.2rem 0.7rem; }
 .e-links a::before { content: "["; color: var(--muted); }
 .e-links a::after { content: "]"; color: var(--muted); }
 
 .news { list-style: none; padding: 0; margin: 0; max-width: 68ch; }
-.news li { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; padding: 0.4rem 0; }
-.news time { color: var(--muted); font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+.news li { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; padding: 0.45rem 0; }
+.news time { color: var(--muted); font-size: 0.95rem; font-style: italic; font-variant-numeric: tabular-nums; }
 
-footer { border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.85rem; }
-footer div { max-width: 1120px; margin: 0 auto; padding: 1.2rem 1.5rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-.theme-btn { background: none; border: 1px solid var(--rule); color: var(--muted); border-radius: 4px; padding: 0.15rem 0.6rem; font: inherit; cursor: pointer; }
+/* Footer — white band like HERMES */
+footer { background: var(--surface); border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.95rem; }
+footer div { max-width: 1160px; margin: 0 auto; padding: 2rem 1.875rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.theme-btn { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; background: var(--accent); border: 0; color: #FFFFFF; border-radius: 6px; padding: 0.45rem 0.95rem; cursor: pointer; }
+.theme-btn:hover { filter: brightness(1.08); }
 
 @media (max-width: 820px) {
-  .wrap { grid-template-columns: 1fr; gap: 0; }
+  .wrap { grid-template-columns: 1fr; gap: 0; padding: 0 1.25rem 4rem; }
+  .topbar-inner { padding: 0.9rem 1.25rem; }
   .sidebar { margin-top: 0; }
   .sidebar-inner { position: static; display: grid; grid-template-columns: auto 1fr; column-gap: 1.2rem; align-items: start; }
   .avatar { width: 110px; height: 110px; font-size: 2.2rem; grid-row: span 2; margin-top: -48px; }
@@ -141,7 +145,7 @@ footer div { max-width: 1120px; margin: 0 auto; padding: 1.2rem 1.5rem; display:
   .role { margin-bottom: 0; }
   .links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; margin-top: 1rem; }
   .banner { height: 140px; }
-  h1 { font-size: 2rem; }
+  h1 { font-size: 2.1rem; }
   main { padding-top: 1.8rem; }
   .news li { grid-template-columns: 1fr; gap: 0; }
 }
@@ -164,7 +168,7 @@ footer div { max-width: 1120px; margin: 0 auto; padding: 1.2rem 1.5rem; display:
   </div>
 </header>
 
-<div class="banner" aria-hidden="true"><svg id="banner" preserveAspectRatio="xMidYMid slice"></svg></div>
+<div class="banner"><img src="banner.jpg" alt="" width="2000" height="1317"></div>
 
 <div class="wrap">
   <aside class="sidebar">
@@ -178,7 +182,7 @@ footer div { max-width: 1120px; margin: 0 auto; padding: 1.2rem 1.5rem; display:
 
   <main>
     <section class="page" id="page-about">
-      <h1>About</h1>
+      <h1>About me</h1>
       <div class="prose" id="aboutText"></div>
       <div class="prose"><h3>Research projects</h3></div>
       <ul class="entries" id="projectList"></ul>
@@ -242,7 +246,7 @@ const SITE = {
   }
  ],
  "about": [
-  "I am an associate professor at the Faculty of Computer Science of the Université de Namur, where I am part of the Namur Digital Institute (NaDI). My research asks how machines could learn and use language the way people do: through situated, communicative interactions with others, rather than from text alone.",
+  "I am an associate professor in artificial intelligence at the Faculty of Computer Science of the Université de Namur, where I am part of the Namur Digital Institute (NaDI). My research asks how machines could learn and use language the way people do: through situated, communicative interactions with others, rather than from text alone.",
   "I work on computational construction grammar, and in particular Fluid Construction Grammar; on the emergence of communication systems in populations of autonomous agents; and on neuro-symbolic approaches to grounded, human-interpretable language understanding.",
   "Before being appointed in Namur in 2022, I was a researcher at the Artificial Intelligence Lab of the Vrije Universiteit Brussel, first as a PhD student with Luc Steels and later as a postdoctoral researcher and guest professor. I studied speech and language processing at the University of Edinburgh and language and literature at KU Leuven.",
   "I am president of the Evolutionary Linguistics Association and a member of ELLIS."
@@ -250,7 +254,8 @@ const SITE = {
  "projects": [
   {
    "title": "CxG-LEARN",
-   "text": "Syntactico-semantic generalisation operators for learning large-scale usage-based construction grammars. FNRS-FWO WEAVE project with Vrije Universiteit Brussel, 2024–2028. Principal investigator."
+   "text": "Syntactico-semantic generalisation operators for learning large-scale usage-based construction grammars. FNRS-FWO WEAVE project with Vrije Universiteit Brussel, 2024–2028. Principal investigator.",
+   "url": "https://hermes-programme.eu/hermes-i/"
   },
   {
    "title": "MUHAI",
@@ -271,6 +276,10 @@ const SITE = {
  "news": [
   {
    "date": "Nov 2026",
+   "text": "Invited talk at the Syn-Sem lab, directed by Prof. Laura Michaelis, at the University of Colorado Boulder: \u201cUsage-based construction grammar\u201d."
+  },
+  {
+   "date": "Nov 2026",
    "text": "Liesbet De Vos defends her PhD thesis on SignFCG, a framework for modelling sign language constructions in computational construction grammar."
   },
   {
@@ -287,15 +296,21 @@ const SITE = {
   },
   {
    "date": "Jul 2026",
-   "text": "Shortlisted for the Falling Walls Scientific Breakthrough of the Year 2026, in the Humanities and Social Sciences category."
+   "text": "Shortlisted for the Falling Walls Scientific Breakthrough of the Year 2026, in the Humanities and Social Sciences category, with \u201cBreaking the wall of human-like language learning in machines\u201d.",
+   "url": "https://falling-walls.com/breakthroughs/finalists-interviews/katrien-beuls",
+   "linkText": "Read the interview"
   },
   {
    "date": "Jul 2026",
-   "text": "Publication chair of CoNLL 2026 in San Diego, where Paul Van Eecke and I published a method for learning large-scale construction grammars from semantically annotated corpora."
+   "text": "Publication chair of CoNLL 2026 in San Diego, where Paul Van Eecke and I published a method for learning large-scale construction grammars from semantically annotated corpora.",
+   "url": "https://aclanthology.org/2026.conll-main.13/",
+   "linkText": "Read the paper"
   },
   {
    "date": "Nov 2025",
-   "text": "General chair of BNAIC/BeNeLearn 2025, hosted in Namur."
+   "text": "General chair of BNAIC/BeNeLearn 2025, hosted in Namur.",
+   "url": "https://bnaic2025.unamur.be",
+   "linkText": "Conference website"
   },
   {
    "date": "Apr 2025",
@@ -1349,6 +1364,18 @@ const SITE = {
    "date": "August 2027 (upcoming)"
   },
   {
+   "year": "2026",
+   "title": "Usage-Based Construction Grammar",
+   "where": "Invited talk, Syn-Sem lab (directed by Prof. Laura Michaelis), University of Colorado Boulder, USA",
+   "date": "18 November 2026"
+  },
+  {
+   "year": "2026",
+   "title": "Creativity and the Grammar Network: Modeling Argument Structure at Scale",
+   "where": "Invited talk, 3rd Workshop on Creativity and Construction Grammar, Eichstätt, Germany",
+   "date": "16 June 2026"
+  },
+  {
    "year": "2025",
    "title": "Fluid Construction Grammar: State of the Art and Future Outlook; Fluid Construction Grammar meets CASA",
    "where": "Invited lecture and seminar, RTG Dimensions of Constructional Space Welcome Week, Erlangen, Germany",
@@ -1363,7 +1390,7 @@ const SITE = {
   {
    "year": "2025",
    "title": "Language and Creativity: A Computational Construction Grammar Perspective",
-   "where": "Invited talk, Workshop on Creativity and Construction Grammar, Eichstätt, Germany",
+   "where": "Invited talk, 2nd Workshop on Creativity and Construction Grammar, Eichstätt, Germany",
    "date": "28 May 2025"
   },
   {
@@ -1746,29 +1773,6 @@ function route() {
   if (target) target.scrollIntoView();
   else window.scrollTo(0, 0);
 }
-/* Banner: quiet contour lines, seeded from the name so they stay the same */
-function banner() {
-  const svg = document.getElementById("banner");
-  const W = 1600, H = 240;
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-  let seed = [...SITE.name].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
-  const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
-  const waves = Array.from({ length: 4 }, () => ({ f: 0.002 + rnd() * 0.006, p: rnd() * 6.28, a: 8 + rnd() * 22 }));
-  let paths = "";
-  const n = 22;
-  for (let i = 0; i < n; i++) {
-    const base = (i / (n - 1)) * (H + 40) - 20;
-    let d = "";
-    for (let x = 0; x <= W; x += 16) {
-      let y = base;
-      waves.forEach((w, k) => { y += Math.sin(x * w.f + w.p + i * 0.18 * (k + 1)) * w.a * (0.4 + i / n); });
-      d += (x ? "L" : "M") + x + " " + y.toFixed(1);
-    }
-    const t = i / (n - 1);
-    paths += `<path d="${d}" fill="none" stroke="${t > 0.5 ? "var(--banner-a)" : "var(--banner-b)"}" stroke-width="${(0.8 + t * 0.9).toFixed(2)}" opacity="${(0.25 + t * 0.6).toFixed(2)}"/>`;
-  }
-  svg.innerHTML = paths;
-}
 
 /* Theme toggle (remembered per viewer) */
 function initTheme() {
@@ -1785,7 +1789,7 @@ function initTheme() {
   });
 }
 
-render(); banner(); initTheme(); route();
+render(); initTheme(); route();
 window.addEventListener("hashchange", route);
 </script>
 </body>
